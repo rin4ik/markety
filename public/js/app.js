@@ -48459,7 +48459,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -48529,14 +48528,6 @@ var render = function() {
       _c("add-category", {
         attrs: { all: _vm.everyCat, categories: _vm.allCategories },
         on: { push: _vm.addSub, added: _vm.addCategory }
-      }),
-      _vm._v(" "),
-      _c("v-client-table", {
-        attrs: {
-          data: _vm.tableData,
-          columns: _vm.columns,
-          options: _vm.options
-        }
       })
     ],
     1

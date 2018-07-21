@@ -17,8 +17,7 @@
       </div>
     </div>
     <add-category @push="addSub" :all="everyCat" @added="addCategory" :categories="allCategories"></add-category>
- <v-client-table :data="tableData" :columns="columns" :options="options"></v-client-table>
-  </div>
+   </div>
 </template>
 
 <script>
