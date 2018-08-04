@@ -3,14 +3,44 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'name_ru', 'fullName', 'fullName_ru', 'parent_id', 'status'];
-    public $timestamps = false;
+    use Sluggable;
+    protected $fillable = ['name', 'name_ru'];
 
-    public function childCategories()
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+        return [
+                    'slug' => [
+                        'source' => 'name'
+                    ]
+                ];
+    }
+
+    public function filters()
+    {
+        return $this->hasMany(Filter::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

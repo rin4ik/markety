@@ -12,5 +12,8 @@
     <script src="/admin/js/jquery.js"></script>
     <script src="/admin/js/popper.js"></script>
     <script src="/js/app.js" defer></script>
-    <script src="/admin/js/bootstrap.js"></script> 
+    <!-- Latest compiled and minified CSS --> 
+ 
+ 
+
 </head>

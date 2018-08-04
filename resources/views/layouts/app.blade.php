@@ -6,7 +6,6 @@
     <div class="app" id="app">
         @include('layouts.partials.header')
         
-        @include('layouts.partials.breadcrumb')  
         
         <div v-cloak>
             @include('modal.all')   

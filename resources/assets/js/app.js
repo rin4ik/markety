@@ -6,7 +6,10 @@
  */
 
 require('./bootstrap');
-var category = require('./components/pages/categories/Category.vue'); 
+var bootstrapSelect = require('bootstrap-select/js/bootstrap-select.js');
+
+var catalog = require('./pages/admin/catalogs/Catalog.vue'); 
+var filterCatalog = require('./pages/admin/filters/FilterCatalog.vue');
 window.Vue = require('vue');
 window.events = new Vue();
 window.flash = function(message, level = 'success') {
@@ -15,20 +18,25 @@ window.flash = function(message, level = 'success') {
         level
     });
 }
+const eventBus = new Vue() 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.component('categories', require('./pages/admin/categories/Categories.vue'));
 
-Vue.component('categories', require('./components/pages/categories/Categories.vue'));    
-Vue.component('addCategory', require('./components/pages/categories/AddCategory.vue')); 
-Vue.component('Category', Vue.extend(category));  
-Vue.component('Manufacturers', require('./components/pages/manufacturers/Manufacturers.vue'));    
+Vue.component('catalogs', require('./pages/admin/catalogs/Catalogs.vue'));
+Vue.component('products', require('./pages/admin/products/Productes.vue'));
+Vue.component('Catalog', Vue.extend(catalog));  
+Vue.component('FilterCatalog', Vue.extend(filterCatalog)); 
+Vue.component('Manufacturers', require('./pages/admin/manufacturers/Manufacturers.vue'));  
+Vue.component('Filters', require('./pages/admin/filters/Filters.vue'));     
+     
+Vue.component('AllFilters', require('./pages/front/filters/AllFilters.vue'));     
 
-
-Vue.component('flash', require('./components/Flash.vue'));
-
+Vue.component('flash', require('./components/Flash.vue')); 
+Vue.use(bootstrapSelect)
 const app = new Vue({
     el: '#app'
 });

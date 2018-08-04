@@ -873,3 +873,11 @@ background-color: #FF8C00;
 .header-category-toggle {
   text-align: left;
 }
+
+.flex {
+  display:flex;
+   padding:10px
+}
+.flex li {
+  margin: 0 5px;
+}

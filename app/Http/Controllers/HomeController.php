@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Catalog;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,8 +14,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('pages.index', compact('categories'));
+        $catalogs = Catalog::get()->toTree();
+        return view('pages.index', compact('catalogs'));
     }
 
     /**
@@ -42,10 +42,10 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Catalog  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Catalog $category)
     {
         //
     }
@@ -53,10 +53,10 @@ class HomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Catalog  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Catalog $category)
     {
         //
     }
@@ -65,10 +65,10 @@ class HomeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Catalog  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Catalog $category)
     {
         //
     }
@@ -76,10 +76,10 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Catalog  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Catalog $category)
     {
         //
     }

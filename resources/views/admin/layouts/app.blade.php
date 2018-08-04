@@ -22,8 +22,11 @@
         <div class="sidebar-inner"> 
             <h6 class="sidebar-header">Tовары</h6>
             <ul class="nav flex-column">
+                <li class="nav-item"><a href="/admin/products" class="nav-link">Карточка товаров</a></li> 
+                <li class="nav-item"><a href="/admin/catalogs" class="nav-link">Каталог</a></li> 
                 <li class="nav-item"><a href="/admin/categories" class="nav-link">Категории</a></li> 
-                <li class="nav-item"><a href="/admin/manufacturers" class="nav-link">Производители</a></li> 
+                <li class="nav-item"><a href="/admin/manufacturers" class="nav-link">Производители</a></li>
+                <li class="nav-item"><a href="/admin/filters" class="nav-link">Фильтры</a></li> 
             </ul>
         </div>
       </aside>

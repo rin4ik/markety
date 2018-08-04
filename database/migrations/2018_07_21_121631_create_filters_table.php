@@ -15,7 +15,17 @@ class CreateFiltersTable extends Migration
     {
         Schema::create('filters', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('category_id')->index();
+            $table->string('name');
+            $table->string('name_ru');
+            $table->string('type');
+            $table->text('list');
+            $table->enum('status', ['active', 'inactive']);
+            $table->enum('use', ['Да', 'Нет']);
+            $table->integer('position');
             $table->timestamps();
+
+            // $table->foreign('catalog_id')->references('id')->on('catalogs')->onDelete('cascade');
         });
     }
 

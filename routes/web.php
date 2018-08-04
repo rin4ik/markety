@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/catalogs', 'CatalogController@index')->name('catalogs');
+Route::get('/catalogs/{catalog}', 'CatalogController@show')->name('catalog.show');
 Route::get('/', 'HomeController@index');
 Route::get('/catalog', function () {
     return view('pages.catalog');
@@ -31,7 +33,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.pages.index');
     });
+    Route::resource('/catalogs', 'Admin\CatalogController');
     Route::resource('/categories', 'Admin\CategoryController');
     Route::resource('/manufacturers', 'Admin\ManufacturerController');
-    Route::delete('/remove/manufacturers', 'Admin\ManufacturerController@remove');
+    Route::resource('/filters', 'Admin\FilterController');
+    Route::resource('/products', 'Admin\ProductController');
 });
