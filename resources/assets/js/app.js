@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 var bootstrapSelect = require('bootstrap-select/js/bootstrap-select.js');
+import VueRouter from 'vue-router'
 
 var catalog = require('./pages/admin/catalogs/Catalog.vue');  
 window.Vue = require('vue');
@@ -18,6 +19,7 @@ window.flash = function(message, level = 'success') {
     });
 }
 const eventBus = new Vue() 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -35,7 +37,11 @@ Vue.component('AllFilters', require('./pages/front/filters/AllFilters.vue'));
 Vue.component('productFilters', require('./pages/front/products/ProductFilters.vue'));     
 
 Vue.component('flash', require('./components/Flash.vue')); 
+Vue.component('pagination', require('./components/Pagination.vue')); 
 Vue.use(bootstrapSelect)
+Vue.use(VueRouter)
+const router = new VueRouter({mode: 'history'})
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router 
 });

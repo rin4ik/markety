@@ -2,6 +2,8 @@
 
 namespace App;
 
+use EloquentFilter\Filterable;
+use App\ModelFilters\ProductFilter;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -11,6 +13,12 @@ class Product extends Model
     protected $casts = [
         'list' => 'array',
     ];
+    use Filterable;
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(ProductFilter::class);
+    }
 
     public function category()
     {

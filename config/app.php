@@ -148,7 +148,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        EloquentFilter\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...

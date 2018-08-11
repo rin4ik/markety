@@ -15,7 +15,7 @@ class ProductsTableSeeder extends Seeder
     {
         factory(Product::class, 15)->create();
         Manufacturer::get()->each(function ($manufacturer) {
-            factory(Product::class, 200)->create([
+            factory(Product::class, 10)->create([
                 'category_id' => 11,
                 'manufacturer_id' => $manufacturer->id
             ]);

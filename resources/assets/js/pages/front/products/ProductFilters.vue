@@ -1,15 +1,14 @@
  <template>
      <div class="row">            
         <aside class="col side-left"> 
-        <ul class="nav">  
+        <ul class="nav" v-if="catalog">  
                 <div class="form-group">
                          
-                <li v-if="option.products.length > 0" v-for="option in catalog.category.manufacturers"> 
-                    <label :for="`man_${option.id}`" class="custom-control checkbox">
-                        <input @change="changeProducts"   :id="`man_${option.id}`" :value="`man_${option.id}`" type="checkbox">
-                
-                <span> {{option.name}} ({{option.products.length}}) </span>
-                    </label> 
+                <li v-if="option.products.length > 0" v-for="option in catalog.category.manufacturers" >  
+                        <label class="custom-control checkbox">
+                            <input v-model="brandcheck"  :value="option.id" type="checkbox"> 
+                            <span> {{option.name}} ({{option.products.length}}) </span>
+                        </label> 
                 </li>  
                     <li v-else>
                             <label :for="`man_${option.id}`" class="custom-control checkbox">
@@ -64,55 +63,91 @@
                         </li> 
                     </ul> 
         </main> 
-    
+    <pagination v-if="pagination.last_page > 1" :pagination="pagination" :offset="5" @paginate="fetchPosts()"></pagination>
             
     </div>
  </template>
  
 <script>
 export default {
-    props: ['catalog','filters'],
+    props: ['catalog','filters','products'],
     data () {
         return {
-            brandcheck:[],
+            brandcheck:'',
             load:0,
-            prods : this.catalog.category.products
+            prods: this.products.data.data,
+            pagination: this.products.pagination, 
         }
     }, 
     watch: {
         brandcheck () {
-            console.log('sda')
              let params = {
                     brands: this.brandcheck,
                     categoryId: this.catalog.category.id
-                };
+                }; 
             axios.get(`/catalog/${this.catalog.id}`, {params: params})
-                .then((response) =>{
-                    console.log('dse')
-                    this.prods = response.data
+                .then((response) =>{ 
+             this.$router.push({ query: { 'brands' : this.brandcheck }}) 
+                    this.prods = response.data.data.data
+                    this.pagination = response.data.pagination
                      return response.data
                 })
            
          },
          
-    }, 
-    methods: { 
-        changeProducts (e) {  
-            var brandId = e.target.value.split('_')  
-            if(this.brandcheck.length > 0){
-                this.brandcheck.map((value, key)=>{ 
-                    if(value == brandId[1]){  
-                        this.brandcheck.splice(key,1) 
-                        this.load = 2
-                    }
-                }) 
-            }  
-            if(this.load != 2){
-               this.brandcheck.push(brandId[1])
-               this.load--                       
-            }  
-            this.load = 0
+    },   
+ mounted(){
+    this.brandcheck = this.products.brands.brands ? this.products.brands.brands : []
+ },
+    methods: {  
+        selectedBrands(id){ 
+            var data = ''
+            if(this.brandSelected){
+                this.brandSelected.filter((value, key)=>{  
+                if(value == id)
+                { 
+                    data = value
+                }   
+            }) 
         }
+             
+            if(data == id){
+                console.log('somethin')
+                return true
+            }
+            return false
+            
+        },
+        fetchPosts() {
+            let params = {
+                    brands: this.brandcheck,
+                    categoryId: this.catalog.category.id
+                };
+            axios.get(`/catalog/${this.catalog.id}?page=${this.pagination.current_page}`,{params: params})
+                .then(response => {
+                    this.prods = response.data.data.data;
+                    this.pagination = response.data.pagination; 
+                })
+                .catch(error => {
+                    console.log(error.response.data);
+                });
+        },
+        // changeProducts (e) {  
+        //     var brandId = e.target.value.split('_')  
+        //     if(this.brandcheck.length > 0){
+        //         this.brandcheck.map((value, key)=>{ 
+        //             if(value == brandId[1]){  
+        //                 this.brandcheck.splice(key,1) 
+        //                 this.load = 2
+        //             }
+        //         }) 
+        //     }  
+        //     if(this.load != 2){
+        //        this.brandcheck.push(brandId[1])
+        //        this.load--                       
+        //     }  
+        //     this.load = 0
+        // }
     }
 }
 </script>

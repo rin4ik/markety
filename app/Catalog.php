@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Catalog extends Model
 {
     use  NodeTrait;
+
     protected $fillable = ['name', 'name_ru', 'fullName', 'category_id', 'fullName_ru', 'parent_id', 'status'];
     public $timestamps = false;
 
