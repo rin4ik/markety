@@ -16,4 +16,17 @@ class Manufacturer extends Model
         }
         return '/uploads/brands/default.png';
     }
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class)->withPivot('category_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

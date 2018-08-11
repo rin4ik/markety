@@ -1,28 +1,24 @@
 <template> 
-      <tr :style="[filter.status == 'inactive' ? {'color':'#c73030' } : '']">
+      <tr v-if="filter" :style="[filter.status == 'inactive' ? {'color':'#c73030' } : '']">
         <td>
-          <input type="checkbox" :checked="checked ? 'checked' :''" :id="filter.id" @click="select">
+          <input type="checkbox" :checked="checked || selected ? 'checked' :''" :id="filter.id" @click="select">
         </td>
         <td>{{filter.id}}</td>
         <td>{{filter.name_ru}}</td>
-        <td>{{filter.category.name}}</td>
+        <td>{{filter.category ? filter.category.name_ru: ''}}</td>
         <td>{{filter.position}}</td>
         <td>{{filter.type}}</td>
         <td>{{filter.use}}</td>
         <td>{{filter.status}}</td>
-      </tr>  
-</ul> 
-     
-
+      </tr>   
 </template>
 <script>
 import EditFilter from './EditFilter'
 export default {
     components:{EditFilter},
-    props:['currentFilter', 'checked', 'deletedItem','filters', 'catalogs', 'edited'],
+    props:['filter', 'checked', 'deletedItem','filters', 'edited'],
     data () {
-        return {
-            filter : this.currentFilter,
+        return { 
             selected: false, 
             deleted: this.deletedItem
         }
@@ -34,21 +30,17 @@ export default {
                 this.selected = false  
                 
                 return
-            }
-            if(!this.selected){
+            } 
                 this.$emit('selected', this.filter)
-                this.selected = true 
-                
-            }
+                this.selected = true  
                 
         }
-    },  
+    }, 
     watch : {
-        edited () { 
-            this.selected = false
+        edited () {  
             this.deleted = false           
             return     
-            }
-        }
+            },
+        }, 
     } 
 </script> 

@@ -2,24 +2,13 @@
 <nav aria-label="breadcrumb">
     <div class="container">
         
-    <ul class="flex">
-        <li class="breadcrumb-item" >
-            @if (Route::is('catalogs') && empty(Request::query()))
-              <span>Home</span>
-            @else
-                <a href="/">Home</a>
-            @endif
-        </li>
+    <ul class="breadcrumb"> 
 
-        @if (Route::is('catalog.show'))
+        @if (Route::is('catalog.show')) 
           @if(!empty($catalog->parent_id))
-          <li><span  style="color:#ef5753">&#10095;</span></li>
-          
-          <a href="/catalogs/{{$catalog->parent_id}}">{{$catalog->parent->name}}</a>
-          
-          @endif
-            <li><span  style="color:#ef5753">&#10095;</span></li>
-            <li>{{$catalog && $catalog->category ? $catalog->category->name : $catalog->name }}</li>
+               @include('layouts.partials.each' ,['parent' => $catalog->parent])
+          @endif 
+            <li>{{ $catalog->name }}</li>
         @endif
 
         @if (Route::is('channels'))

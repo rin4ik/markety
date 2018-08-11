@@ -32,8 +32,8 @@
                                 <option value="0" selected disabled>Не выбран</option>
                                 <option value="radio">Radio</option>
                                 <option value="checkbox">Checkbox</option>
-                                <option value="select">Select</option>
-                                <option value="input">Input</option>
+                                <option value="color">Color</option>
+                                <option value="size">Size</option>
                             </select>
                             <div v-if="errors.type">
                                 <p style="color:red" v-text="errors.type[0]"></p>
@@ -139,7 +139,7 @@ export default {
                     $('#editFilter').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
-                    this.$emit('edited');
+                    this.$emit('edited', response.data);
                     flash('Фильтр обновлен');
                 }).catch((error)=> {
                     this.errors = error.response.data.errors 
@@ -155,12 +155,13 @@ export default {
         }
     },
     
-    mounted () {
-        self = this  
+    mounted() { 
+         self = this  
         this.filter = this.currentFilter          
         this.currentFilter.options.map((value,key)=>{
             this.list.push({uz: value[1], ru:value[2]})
-        }) 
+        })  
+       
     }
 
 }

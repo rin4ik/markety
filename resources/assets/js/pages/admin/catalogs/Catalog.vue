@@ -6,11 +6,11 @@
          <span :style="[self.status == 'inactive' ? {'color':'#c73030' } : '']"> <b>{{self.id}}</b> {{self.name_ru}}</span>
         </div>
         <div>           
-          <button class="btn btn-sm" type="button" data-toggle="modal" :data-target="`#editCatalog${self.id}`">Правка</button>
-          <button class="btn btn-sm" @click.prevent="deleteCatalog(self.id)" :disabled="self.children.length > 0">Удалить</button>
+          <button class="btn btn-sm btn-light" type="button" data-toggle="modal" :data-target="`#editCatalog${self.id}`">Правка</button>
+          <button class="btn btn-sm btn-danger" @click.prevent="deleteCatalog(self.id)" :disabled="self.children.length > 0">Удалить</button>
         </div>
       </div>
-      <Catalog :categories="categories" v-show="activeItemIndex == index" v-for="(sub,indexOf) in self.children" :catalogs="catalogs" :catalog="sub" :key="indexOf" :index="indexOf" />
+      <Catalog :all="all" :categories="categories" v-show="activeItemIndex == index" v-for="(sub,indexOf) in self.children" :catalogs="catalogs" :catalog="sub" :key="indexOf" :index="indexOf" />
           <div class="modal animated fadeInUp" :id="`editCatalog${self.id}`" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <form @submit.prevent="changeCatalog" class="modal-content" method="post">
@@ -71,7 +71,7 @@
               <label class="form-label" for="name"> Основной каталог</label>
               <select class="selectpicker form-control" v-model="form.parent_id">
                 <option value="0" selected>Невыбранный</option>
-                <option v-for="catalog in catalogs" :value="catalog.id">{{catalog.name_ru}}</option>
+                <option v-for="catalog in all" :value="catalog.id">{{catalog.name_ru}}</option>
               </select>
             </div> 
             <div class="form-group">
@@ -96,7 +96,7 @@
 </template>
 <script> 
 export default { 
-    props:['catalogs', 'categories', 'catalog', 'index'],
+    props:['catalogs', 'categories', 'catalog', 'all', 'index'],
     data() {
         return {
             activeItemIndex: null,
@@ -126,6 +126,9 @@ export default {
         changeCatalog() { 
             axios.patch(`/api/catalogs/${this.self.id}`, this.form)
               .then(response =>{ 
+                if(this.form.parent_id){
+                  location.reload()
+                }
                 this.self = response.data
                 this.self.children = response.data.descendants
                   $(`#editCatalog${this.self.id}`).modal('hide');

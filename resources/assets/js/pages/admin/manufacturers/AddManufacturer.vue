@@ -24,6 +24,15 @@
                                 <p style="color:red" v-text="errors.name[0]"></p>
                             </div>
                         </div>
+                        <div class="form-group"> 
+                            <label class="form-label" for="name">Категории</label>
+                            <select class="selectpicker form-control" v-model="categoryIds" multiple  data-live-search="true">
+                                <option v-for="category in categories" :value="category.id">{{category.name_ru}}</option>
+                            </select>  
+                            <div v-if="errors.name">
+                                <p style="color:red" v-text="errors.categories[0]"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Закрыть</button>
@@ -39,12 +48,14 @@ export default {
         return { 
             name: '',
             logo: '',
-            errors:''
+            errors:'',
+            categoryIds:[]
         }
     },
+    props:['categories'],
     methods:{
         addManufacturer () { 
-            axios.post('/api/manufacturers', {name : this.name, logo: this.logo} )
+            axios.post('/api/manufacturers', {name : this.name, logo: this.logo, categoryIds: this.categoryIds} )
                 .then((response)=>{
                    this.$emit('added', response.data);
                         $('#newManufacturer').modal('hide');
@@ -73,3 +84,4 @@ export default {
     }
 }
 </script>
+ 

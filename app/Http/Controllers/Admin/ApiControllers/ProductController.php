@@ -40,12 +40,14 @@ class ProductController extends Controller
         request()->validate([
             'category_id' => 'required',
             'manufacturer_id' => 'required',
-            'list' => 'required'
+            'list' => 'required',
+            'model' => 'required'
         ]);
         $product = Product::create([
             'category_id' => $request->category_id,
             'manufacturer_id' => $request->manufacturer_id,
-            'list' => $request->list,
+            'model' => $request->model,
+            'list' => collect($request->list),
         ]);
         return response()->json($product->loadMissing('manufacturer', 'category'), 200);
     }
@@ -84,12 +86,12 @@ class ProductController extends Controller
         request()->validate([
             'category_id' => 'required',
             'manufacturer_id' => 'required',
-            'list' => 'required'
+            'characs' => 'required'
         ]);
         $product->update([
             'category_id' => request('category_id'),
             'manufacturer_id' => request('manufacturer_id'),
-            'list' => request('list')
+            'list' => request('characs')
         ]);
         return response()->json($product->loadMissing('manufacturer', 'category'), 200);
     }

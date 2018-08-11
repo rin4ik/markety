@@ -21,30 +21,14 @@ class ProductController extends Controller
         $products = Product::with('manufacturer', 'category')->get();
         $categories = Category::with('filters')->get();
         $manufacturers = Manufacturer::get();
-        $filterset = Filter::get();
-        foreach ($filterset as $filter) {
-            $count = 0;
-            $options = [];
-            foreach ($filter->list as $id => $_array) {
-                if (is_array($_array) && $limit > 0) {
-                    $count += count_recursive($_array, $limit - 1);
-                } else {
-                    $count += 1;
-                    $options[$id] = $this->multiexplode(['/', '='], $_array);
-                    // $options[$id] = explode('/', );
-                }
-            }
-            $filters[] = [
-                    'name' => $filter->name,
-                    'name_ru' => $filter->name_ru,
-                    'options' => $options,
-                    'type' => $filter->type,
-                    'status' => $filter->status,
-                    'use' => $filter->use,
-                    'position' => $filter->position
-                ];
-        };
-        $filters = collect($filters);
+        $filters = Filter::get();
+        // $options = [];
+        // foreach ($products as  $product) {
+        //     foreach ($product->list as $id => $value) {
+        //         $options[] = explode('=', $value);
+        //     }
+        // }
+        // $product['list'] = $options;
         return view('admin.pages.products.index', compact('filters', 'products', 'categories', 'manufacturers'));
     }
 

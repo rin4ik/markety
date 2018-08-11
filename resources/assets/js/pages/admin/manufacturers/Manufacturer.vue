@@ -1,7 +1,7 @@
 <template>  
         <tr>
             <td>
-                <input type="checkbox" :checked="checked ? 'checked' :''" id="manufacturer.id" @click="select">
+                <input type="checkbox"  :checked="checked || selected  ? 'checked' :''" id="manufacturer.id" @click="select">
             </td>
             <td>{{manufacturer.id}}</td>
             <td><img class="image" :src="manufacturer.image"></td>
@@ -26,24 +26,22 @@ export default {
                 this.$emit('unselected', this.manufacturer) 
                 this.selected = false  
                 return
-            }
+            } 
             if(!this.selected){
-                this.$emit('selected', this.manufacturer)
-                this.selected = true 
-            }
-                
+            this.$emit('selected', this.manufacturer)
+            this.selected = true
+            }  
         }
     },
     watch: {
-        deletedItem () {  
-            this.selected = false 
-            this.deletedItem =false
-            return          
+        deletedItem () { 
+            this.selected = false                
+            this.deleted  = false
+            return 
         },
         edited () {
-            this.selected = false 
-            this.deletedItem =false
-            return  
+            this.deleted  =false 
+            return
         }
 
     },

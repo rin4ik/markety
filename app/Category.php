@@ -24,6 +24,14 @@ class Category extends Model
                 ];
     }
 
+    /**
+        * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+        */
+    public function manufacturers()
+    {
+        return $this->belongsToMany(Manufacturer::class);
+    }
+
     public function filters()
     {
         return $this->hasMany(Filter::class);

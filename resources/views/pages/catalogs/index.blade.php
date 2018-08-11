@@ -1,22 +1,37 @@
 @extends('layouts.app')
 @section('content')
 @include('layouts.partials.breadcrumb')  
-
-        <h2 style="margin-bottom:10px">{{$catalog->name}}</h2>    
- 
-        <p style="margin-left:20px"> 
+  
+        <section class="section"><div class="container"><h1 class="title font-wb"> {{$catalog->fullName}}</h1></div></section> 
+        <div class="container">
+                <div class="row">            
+                    <aside class="col side-left"> 
+            <div class="catalog-nav">
+                    
         @foreach($catalog->children as $catalog)
-            @if(count($catalog->children) <=0)
-               <a href="/catalogs/{{$catalog['id']}}">{{$catalog['name']}}</a>
-            @else
-            {{$catalog['name']}}            
-                @foreach($catalog->children as $child)
-                    <p style="margin-left:30px">
-                        <a href="/catalogs/{{$child['id']}}">{{$child['name']}}</a>   
-                    </p> 
+            
+          
+                
+                    <div class="catalog-nav-group">
+                            @if(count($catalog->children) <=0) 
+                            <a class="catalog-nav-title" href="/catalog/{{$catalog['id']}}">{{$catalog['name']}}</a> 
+                         @else       
+                        <a class="catalog-nav-title" href="/catalog/{{$catalog->id}}">{{$catalog['name']}}</a>   
+                      <div class="catalog-nav-links">
+                            
+            @foreach($catalog->children as $child)
+            
+                            <a  href="/catalog/{{$child['id']}}">{{$child['name']}}</a>  
                 @endforeach
+                      </div>
+                      
+                    </div>
+                
             @endif
         @endforeach
-         </p> 
-     
+    </div> 
+    
+                </aside> 
+ </div>
+ </div>    
 @endsection

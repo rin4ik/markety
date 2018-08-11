@@ -1,10 +1,10 @@
 <template>
     <tr v-if="product">
         <td>
-          <input type="checkbox" :checked="checked ? 'checked' :''" :id="product.id" @click="select">
+          <input type="checkbox" :checked="checked || selected ? 'checked' :''" :id="product.id" @click="select">
         </td>
         <td>{{product.id}}</td>
-        <td>{{product.category.name}}</td>
+        <td>{{product.category.name_ru}}</td>
         <td>{{product.manufacturer.name}}</td>
         <td>active</td>
       </tr>
@@ -36,12 +36,11 @@ export default {
     watch: {
         deletedItem () {  
             this.selected = false 
-            this.deletedItem =false
+            this.deleted =false
             return          
         },
-        edited () {
-            this.selected = false 
-            this.deletedItem =false
+        edited () { 
+            this.deleted =false
             return  
         }
 

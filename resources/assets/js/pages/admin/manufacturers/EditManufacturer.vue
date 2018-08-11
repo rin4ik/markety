@@ -24,6 +24,15 @@
                                 <p style="color:red" v-text="errors.name[0]"></p>
                             </div>
                         </div>
+                        <div class="form-group" > 
+                            <label class="form-label" for="category">Категории</label>
+                            <select class="selectpicker show-tick form-control" v-model="categoryIds" title="Выберите опции"  multiple  data-style="btn-light">
+                                <option v-for="category in categories" :value="category.id">{{category.name_ru}}</option>
+                            </select>  
+                            <div v-if="errors.name">
+                                <p style="color:red" v-text="errors.categories[0]"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Закрыть</button>
@@ -36,30 +45,38 @@
 <script>
 
 export default {
-    props : ['manufacturers','manufactur'],
+    props : ['manufacturers','manufactur', 'categories'],
 
     data () {
         return {
             manufacturer: '', 
             logo: '',
-            errors:''            
+            errors:'',
+            categoryIds:[]
         }
     },
     watch : {
         manufactur () {
-            this.manufacturer = this.manufactur
-        }
-    },
+            this.manufacturer = this.manufactur   
 
+        }
+    }, 
+    mounted () {
+            this.manufacturer = this.manufactur   
+        
+        this.categoryIds = this.manufactur.categoryIds
+        $('.selectpicker').selectpicker('refresh');
+        $('.selectpicker').selectpicker('render');
+    },
     methods: {
          editManufacturer () { 
-            axios.patch(`/api/manufacturers/${this.manufacturer.id}`, {name : this.manufacturer.name, logo: this.logo })
+            axios.patch(`/api/manufacturers/${this.manufacturer.id}`, {name : this.manufacturer.name, logo: this.logo, categoryIds: this.categoryIds })
                 .then((response) => { 
                     this.manufacturer = response.data
                     $('#editManufacturer').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
-                    this.$emit('edited');
+                    this.$emit('edited', response.data);
                     flash('Производитель обновлен');
                 }).catch((error)=> {
                     this.errors = error.response.data.errors 

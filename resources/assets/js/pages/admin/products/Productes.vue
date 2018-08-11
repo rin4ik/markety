@@ -3,25 +3,25 @@
     <div class="toolbar d-flex justify-content-between">
   <aside class="form-row">
     <div class="col-auto input-group input-group-sm">
-      <select v-model="value" class="custom-select">
-        <option value="0" disabled selected>Действие</option>
-        <option value="1">Редактировать</option>
-        <option value="2">Удалить</option>
-      </select>
-      <div class="input-group-append">
-        <button class="btn btn-dark" @click="change" type="button">OK</button>
-      </div>
+        <select class="custom-select" v-model="value">
+            <option value="0" selected>Действие</option>
+            <option value="1">Редактировать</option>
+            <option value="2">Удалить</option>
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-light" :class="[value==1 ? 'btn-primary':'', value == 2 ? 'btn-danger':'']"  @click="change" type="button">OK</button>
+        </div>
     </div>
   </aside>
   <aside class="form-row">
     <div class="col-auto input-group input-group-sm">
       <input class="form-control" type="text" placeholder="Поиск">
       <div class="input-group-append">
-        <button class="btn btn-dark" type="button">OK</button>
+        <button class="btn btn-light" type="button">OK</button>
       </div>
     </div>
     <div class="col-auto">
-      <button class="btn btn-sm btn-blue" type="button" data-toggle="modal" data-target="#newProduct">Добавить</button>
+      <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#newProduct">Добавить</button>
     </div>
   </aside>
 </div>
@@ -39,7 +39,7 @@
       </tr>
     </thead>
     <tbody>
-      <Product v-for="(product,index) in allProducts" :deletedItem="deleted" @selected="markSelected" @unselected="unselect" :checked="allItems" :key="index" :product="product" />
+      <Product v-for="(product,index) in allProducts" :deletedItem="deleted" @selected="markSelected" @unselected="unselect" :checked="allItems" :key="index" :product="product" /> 
     </tbody>
   </table>
 </div>
@@ -73,8 +73,14 @@ export default {
       this.allProducts.push(data)
     },
      edited () { 
-            this.selectedItems = [],
             this.editedVar = true
+            this.allProducts.map((value, key)=>{
+                if(item.id == value.id){
+                    console.log('item')
+                    this.allProducts[key] = item
+                    this.product = item
+                }
+            })
         }, 
     selectAll() {
             if(this.allItems){

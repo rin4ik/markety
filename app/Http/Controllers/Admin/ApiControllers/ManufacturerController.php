@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\ApiControllers;
 
 use App\Manufacturer;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,7 +18,8 @@ class ManufacturerController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'categoryIds' => 'required'
         ]);
         $manufacturer = new Manufacturer();
         $manufacturer->name = $request->name;
@@ -30,13 +32,16 @@ class ManufacturerController extends Controller
             $manufacturer->logo = $name;
         }
         $manufacturer->save();
+
+        $manufacturer->categories()->attach($request->categoryIds);
         return response()->json($manufacturer, 200);
     }
 
     public function update(Manufacturer $manufacturer, Request $request)
     {
         request()->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'categoryIds' => 'required'
         ]);
         $manufacturer->update([
             'name' => request('name')
@@ -51,17 +56,20 @@ class ManufacturerController extends Controller
                 'logo' => $name
             ]);
         }
+        $manufacturer->categories()->sync($request->categoryIds);
         return response()->json($manufacturer, 200);
     }
 
     public function destroy(Manufacturer $manufacturer)
     {
+        $manufacturer->categories()->detach();
         $manufacturer->delete();
         return response()->json(null, 200);
     }
 
     public function remove()
     {
+        DB::table('category_manufacturer')->truncate();
         Manufacturer::truncate();
         return response()->json(null, 200);
     }

@@ -5,14 +5,14 @@
       </aside>
       <aside class="form-row">
         <div class="col-auto">
-          <button class="btn btn-sm btn-blue" type="button" data-toggle="modal" data-target="#newCatalog">Добавить</button>
+          <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#newCatalog">Добавить</button>
         </div>
       </aside>
     </div>
     <div class="page-body">
       <div class="page-body-inner">
         <ol class="dd-list" v-if="allCatalogs.length > 0">
-          <catalog :categories="categories" v-if="catalogs" :catalogs="allCatalogs"   v-for="(catalog,index) in allCatalogs" :key="index" :catalog="catalog" :index="index"></catalog>
+          <catalog :all="all" :categories="categories" v-if="catalogs" :catalogs="allCatalogs"   v-for="(catalog,index) in allCatalogs" :key="index" :catalog="catalog" :index="index"></catalog>
         </ol>
         <h4 style="margin-left:20px" v-else>Нет доступных каталогов</h4>
 

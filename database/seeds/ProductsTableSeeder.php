@@ -1,6 +1,7 @@
 <?php
 
 use App\Product;
+use App\Manufacturer;
 use Illuminate\Database\Seeder;
 
 class ProductsTableSeeder extends Seeder
@@ -13,5 +14,11 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         factory(Product::class, 15)->create();
+        Manufacturer::get()->each(function ($manufacturer) {
+            factory(Product::class, 200)->create([
+                'category_id' => 11,
+                'manufacturer_id' => $manufacturer->id
+            ]);
+        });
     }
 }

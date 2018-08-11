@@ -11,10 +11,10 @@
 <title>{{ config('app.name', 'Markety') }}</title>
 
 <!-- Styles -->
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
-<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 <link href="{{ asset('css/grid.css') }}" rel="stylesheet">
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
 <script>
     window.App={!!json_encode(['csrfToken'=>csrf_token(),

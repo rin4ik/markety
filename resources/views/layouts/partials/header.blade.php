@@ -29,34 +29,4 @@
     </div>
   </div>
 <? include_once ROOT_DIR.'/template/block/categories.php' ?>
-</header>
-
-
-
-
-
-
-
-
-<nav class="main-nav d-none">
-  <div class="container">
-    <div class="row">
-      <div class="header-bottom-left col-3 ">
-        <ul class="nav">
-          <li class="item header-home">
-            <a class="btn btn-link" href="/"><i class="icon">home</i></a>
-          </li><li class="item header-category">
-            <button class="btn btn-link" type="button" data-toggle="modal" data-target="#categories"><span class="text">Каталог товаров</span><i class="icon"></i></button>
-          </li>
-        </ul>
-      </div>
-      <div class="header-bottom-right col-9">
-        
-        <ul class="nav header-home-menu">
-          <li class="item"><a class="link" href="/">Скидки дня</a></li>
-        </ul>
-        
-      </div>
-    </div>
-  </div>
-</nav>
+</header> 

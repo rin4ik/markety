@@ -873,11 +873,24 @@ background-color: #FF8C00;
 .header-category-toggle {
   text-align: left;
 }
-
-.flex {
-  display:flex;
-   padding:10px
+.catalog-nav-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #393939;
 }
-.flex li {
-  margin: 0 5px;
+.catalog-nav-group {
+  margin-bottom: 24px;
+}
+.catalog-nav-links {
+  margin-top: 16px;
+}
+.catalog-nav-links a {
+  display: block;
+  line-height: 20px;
+  margin-top: 8px;
+  color: rgba(0,0,0,0.6);
+  text-decoration: none;
+}
+.catalog-nav-links a:hover {
+  color: #ff9100;
 }

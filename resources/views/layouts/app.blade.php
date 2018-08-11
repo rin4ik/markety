@@ -6,14 +6,15 @@
     <div class="app" id="app">
         @include('layouts.partials.header')
         
-        
-        <div v-cloak>
-            @include('modal.all')   
-        </div> 
+    
 
-        <main>
+        <div class="content">
             @yield('content')
-        </main> 
+        </div>
+            
+        <div v-cloak>
+                @include('modal.all')   
+            </div> 
         @include('layouts.partials.footer')
         
     </div>

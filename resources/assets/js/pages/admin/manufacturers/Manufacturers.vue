@@ -4,29 +4,29 @@
             <aside class="form-row">
                 <div class="col-auto input-group input-group-sm">
                     <select class="custom-select" v-model="value">
-                        <option value="0" disabled selected>Действие</option>
+                        <option value="0" selected>Действие</option>
                         <option value="1">Редактировать</option>
                         <option value="2">Удалить</option>
                     </select>
                     <div class="input-group-append">
-                        <button class="btn btn-dark" @click="change" type="button">OK</button>
+                        <button class="btn btn-light" :class="[value==1 ? 'btn-primary':'', value == 2 ? 'btn-danger':'']"  @click="change" type="button">OK</button>
                     </div>
                 </div>
             </aside>
             <aside class="form-row">
                 <div class="col-auto input-group input-group-sm">
-                    <input class="form-control" type="text" placeholder="Поиск">
+                    <input v-model="search" class="form-control" type="text" placeholder="Поиск">
                     <div class="input-group-append">
-                        <button class="btn btn-dark" type="button">OK</button>
+                        <button class="btn btn-light" type="button">OK</button>
                     </div>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-sm btn-blue" type="button" data-toggle="modal" data-target="#newManufacturer">Добавить</button>
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#newManufacturer">Добавить</button>
                 </div>
             </aside>
         </div>
         <div class="page-body">
-            <table v-if="all.length > 0" id="myTable" class="table table-striped table-hover table-sm">
+            <table v-if="filteredList.length > 0" id="myTable" class="table table-striped table-hover table-sm">
                 <thead>
                     <tr>
                         <th class="col-auto">
@@ -38,16 +38,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <Manufacturer :edited="editedVar" @render="render" :deletedItem="deleted" @selected="markSelected" @unselected="unselect" :checked="allItems" v-for="(manufacturer,index) in all" :key="index" :manufacturer="manufacturer" /> 
+                    <Manufacturer :edited="editedVar" @render="render" :deletedItem="deleted" @selected="markSelected" @unselected="unselect" :checked="allItems" v-for="(manufacturer,index) in filteredList" :key="index" :manufacturer="manufacturer" /> 
+                    
                 </tbody>
                  
                  
             </table>
-            <h4 style="margin-left:20px" v-else>Нет доступных производителей</h4>
+
+            <h4 style="margin-left:20px" v-else>Нет доступных производителей</h4> 
         </div>
 
-        <AddManufacturer @added="add" />
-        <EditManufacturer @edited="edited" :manufactur="manufacturer" :manufacturers="all" />
+        <AddManufacturer :categories="categories" @added="add" />
+        <EditManufacturer v-if="manufacturer" :categories="categories" @edited="edited" :manufactur="manufacturer" :manufacturers="all" />
 
     </div>
 </template>
@@ -56,7 +58,7 @@ import AddManufacturer from './AddManufacturer'
 import EditManufacturer from './EditManufacturer'
 import Manufacturer from './Manufacturer'
 export default {
-    props:['manufacturers'],
+    props:['manufacturers', 'categories'],
     data () {
         return {
             all: this.manufacturers, 
@@ -65,7 +67,8 @@ export default {
             selectedItems: [],
             manufacturer:'',
             deleted : false,
-            editedVar:false
+            editedVar:false,
+            search:''
         }
     },
     components:{ Manufacturer, AddManufacturer, EditManufacturer },
@@ -73,14 +76,27 @@ export default {
         deleted () {
             this.deleted = true
         }
-    },  
+    }, 
+    computed : {
+        filteredList() {
+            return this.all.filter(manufacturer => {
+                return manufacturer.name.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
+    }, 
     methods: {
         add(data){
             this.all.push(data)
         },
-        edited () { 
-            this.selectedItems = [],
+        edited (item) {  
             this.editedVar = true
+            this.filteredList.map((value, key)=>{
+                if(item.id == value.id){
+                    this.filteredList[key] = item
+                    this.manufacturer = item
+                }
+            })
+
         }, 
         selectAll() {
             if(this.allItems){
@@ -170,3 +186,6 @@ export default {
 
 }
 </script>
+<style lang="scss">
+    @import '~bootstrap-select/sass/bootstrap-select.scss';
+</style>

@@ -8,8 +8,7 @@
 require('./bootstrap');
 var bootstrapSelect = require('bootstrap-select/js/bootstrap-select.js');
 
-var catalog = require('./pages/admin/catalogs/Catalog.vue'); 
-var filterCatalog = require('./pages/admin/filters/FilterCatalog.vue');
+var catalog = require('./pages/admin/catalogs/Catalog.vue');  
 window.Vue = require('vue');
 window.events = new Vue();
 window.flash = function(message, level = 'success') {
@@ -29,11 +28,11 @@ Vue.component('categories', require('./pages/admin/categories/Categories.vue'));
 Vue.component('catalogs', require('./pages/admin/catalogs/Catalogs.vue'));
 Vue.component('products', require('./pages/admin/products/Productes.vue'));
 Vue.component('Catalog', Vue.extend(catalog));  
-Vue.component('FilterCatalog', Vue.extend(filterCatalog)); 
 Vue.component('Manufacturers', require('./pages/admin/manufacturers/Manufacturers.vue'));  
 Vue.component('Filters', require('./pages/admin/filters/Filters.vue'));     
      
 Vue.component('AllFilters', require('./pages/front/filters/AllFilters.vue'));     
+Vue.component('productFilters', require('./pages/front/products/ProductFilters.vue'));     
 
 Vue.component('flash', require('./components/Flash.vue')); 
 Vue.use(bootstrapSelect)

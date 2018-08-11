@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/catalogs', 'CatalogController@index')->name('catalogs');
-Route::get('/catalogs/{catalog}', 'CatalogController@show')->name('catalog.show');
+Route::get('/catalog', 'CatalogController@index')->name('catalogs');
+Route::get('/catalog/{catalog}', 'CatalogController@show')->name('catalog.show');
 Route::get('/', 'HomeController@index');
 Route::get('/catalog', function () {
     return view('pages.catalog');

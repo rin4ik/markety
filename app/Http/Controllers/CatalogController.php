@@ -3,40 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Catalog;
+use Illuminate\Http\Request;
+use App\Product;
 
 class CatalogController extends Controller
 {
-    public function show(Catalog $catalog)
+    public function show(Catalog $catalog, Request $request)
     {
-        $catalog->loadMissing('descendants', 'category.products.manufacturer')->paginate(50);
+        if (request()->wantsJson()) {
+            $products = Product::with('manufacturer')->ofCategory($request->categoryId)->ofBrands($request->brands)
+            ->get();
+            return response()->json($products, 200);
+        }
+        $catalog->loadMissing(['category.manufacturers.products' => function ($query) use ($catalog) {
+            return  $query->where('category_id', $catalog->category_id);
+        }]);
+        $catalog->loadMissing('category.products.manufacturer');
 
         if (count($catalog->children) > 0) {
             return view('pages.catalogs.index', compact('catalog'));
         }
-        $filters = [];
-        foreach ($catalog->category->filters as $filter) {
-            $count = 0;
-            $options = [];
-            foreach ($filter->list as $id => $_array) {
-                if (is_array($_array) && $limit > 0) {
-                    $count += count_recursive($_array, $limit - 1);
-                } else {
-                    $count += 1;
-                    $options[$id] = $this->multiexplode(['/', '='], $_array);
-                    // $options[$id] = explode('/', );
-                }
-            }
-            $filters[] = [
-                'name' => $filter->name,
-                'name_ru' => $filter->name_ru,
-                'options' => $options,
-                'type' => $filter->type,
-                'status' => $filter->status,
-                'use' => $filter->use,
-                'position' => $filter->position,
-            ];
-        };
-        $filters = collect($filters);
+        $filters = $catalog->category->filters;
         return view('pages.catalogs.show', compact('catalog', 'filters'));
     }
 

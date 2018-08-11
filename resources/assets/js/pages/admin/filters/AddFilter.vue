@@ -33,8 +33,8 @@
                                 <option value="0" selected disabled>Не выбран</option>
                                 <option value="radio">Radio</option>
                                 <option value="checkbox">Checkbox</option>
-                                <option value="select">Select</option>
-                                <option value="input">Input</option>
+                                <option value="color">Color</option>
+                                <option value="size">Size</option>
                             </select>
                             <div v-if="errors.type">
                                 <p style="color:red" v-text="errors.type[0]"></p>
@@ -76,7 +76,7 @@
                         <label class="form-label" for="name">Категория</label>
                     
                         <select class="selectpicker form-control" v-model="form.category_id" title="Выберите одну категорию..."  data-live-search="true">
-                        <option v-for="category in categories" :value="category.id">{{category.name}}</option>
+                        <option v-for="category in categories" :value="category.id">{{category.name_ru}}</option>
                         </select> 
                         <div v-if="errors.category_id">
                                 <p style="color:red" v-text="errors.category_id[0]"></p>
@@ -169,6 +169,3 @@ export default {
     props:['category','categories'] 
 }
 </script>
-<style lang="scss">
-    @import '~bootstrap-select/sass/bootstrap-select.scss';
-</style>

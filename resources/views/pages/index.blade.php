@@ -7,9 +7,9 @@
       <aside class="col side-left"> 
             <ul class="nav">
               @forelse($catalogs as $catalog)
-                <li class="item"><a class="link" href="catalogs/{{$catalog->id}}"><span>{{$catalog->name}}</span></a></li>
+                <li class="item"><a class="link" href="catalog/{{$catalog->id}}"><span>{{$catalog->name}}</span></a></li>
               @empty
-                  Нет Категорий
+                Нет Категорий
               @endforelse
             </ul> 
       </aside>

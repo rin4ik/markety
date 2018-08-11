@@ -53,7 +53,7 @@ export default {
                     $('#editCategory').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
-                    this.$emit('edited');
+                    this.$emit('edited',response.data);
                     flash('Производитель обновлен');
                 }).catch((error)=> {
                     this.errors = error.response.data.errors 

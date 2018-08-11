@@ -1,10 +1,10 @@
 <template>  
         <tr>
             <td>
-                <input type="checkbox" :checked="checked ? 'checked' :''" :id="category.id" @click="select">
+                <input type="checkbox" :checked="checked|| selected   ? 'checked' :''" :id="category.id" @click="select">
             </td>
             <td>{{category.id}}</td> 
-            <td>{{category.name}}</td>
+            <td>{{category.name_ru}}</td>
         </tr> 
 </template>
 <script> 
@@ -19,27 +19,22 @@ export default {
 
     methods:{
         select () { 
-          
             if(this.selected){ 
                 this.$emit('unselected', this.category) 
                 this.selected = false  
                 return
-            }
-            if(!this.selected){
+            } 
                 this.$emit('selected', this.category)
                 this.selected = true 
-            }
-                
         }
     },
     watch: {
         deletedItem () {  
             this.selected = false 
-            this.deletedItem =false
+            this.deletedItem =true
             return          
         },
-        edited () {
-            this.selected = false 
+        edited () { 
             this.deletedItem =false
             return  
         }

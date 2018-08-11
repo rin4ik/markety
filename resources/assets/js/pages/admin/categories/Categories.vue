@@ -4,29 +4,29 @@
             <aside class="form-row">
                 <div class="col-auto input-group input-group-sm">
                     <select class="custom-select" v-model="value">
-                        <option value="0" disabled selected>Действие</option>
+                        <option value="0" selected>Действие</option>
                         <option value="1">Редактировать</option>
                         <option value="2">Удалить</option>
                     </select>
                     <div class="input-group-append">
-                        <button class="btn btn-dark" @click="change" type="button">OK</button>
+                        <button class="btn btn-light" :class="[value==1 ? 'btn-primary':'', value == 2 ? 'btn-danger':'']"  @click="change" type="button">OK</button>
                     </div>
                 </div>
             </aside>
             <aside class="form-row">
                 <div class="col-auto input-group input-group-sm">
-                    <input class="form-control" type="text" placeholder="Поиск">
+                    <input class="form-control" type="text" v-model="search" placeholder="Поиск">
                     <div class="input-group-append">
                         <button class="btn btn-dark" type="button">OK</button>
                     </div>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-sm btn-blue" type="button" data-toggle="modal" data-target="#newCategory">Добавить</button>
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#newCategory">Добавить</button>
                 </div>
             </aside>
         </div>
         <div class="page-body">
-            <table  v-if="all.length > 0" id="myTable" class="table table-striped table-hover table-sm">
+            <table  v-if="filteredList.length > 0" id="myTable" class="table table-striped table-hover table-sm">
                 <thead>
                     <tr>
                         <th class="col-auto">
@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <Category :edited="editedVar" @render="render" :deletedItem="deleted" @selected="markSelected" @unselected="unselect" :checked="allItems" v-for="(category,index) in all" :key="index" :category="category" /> 
+                    <Category :edited="editedVar" @render="render" :deletedItem="deleted" @selected="markSelected" @unselected="unselect" :checked="allItems" v-for="(category,index) in filteredList" :key="index" :category="category" /> 
                 </tbody>
                  
                  
@@ -66,7 +66,8 @@ export default {
             selectedItems: [],
             category:'',
             deleted : false,
-            editedVar:false
+            editedVar:false,
+            search:''
         }
     },
     components:{ Category, AddCategory, EditCategory },
@@ -75,13 +76,26 @@ export default {
             this.deleted = true
         }
     },  
+    computed : {
+        filteredList() {
+            return this.all.filter(category => {
+                return category.name.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
+    },
     methods: {
         add(data){
             this.all.push(data)
         },
-        edited () { 
-            this.selectedItems = [],
+        edited (item) {  
             this.editedVar = true
+            this.all.map((value, key)=>{
+                if(item.id == value.id){
+                    console.log('item')
+                    this.all[key] = item
+                    this.category = item
+                }
+            })
         }, 
         selectAll() {
             if(this.allItems){
